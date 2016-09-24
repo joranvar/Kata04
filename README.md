@@ -1,6 +1,4 @@
-TennisKata
-==========
+Kata04
+======
 
-New Haskell project using stack template `tasty-travis`.
-
-Please read file `tutorial.md` for first steps in using the template.
+http://codekata.com/kata/kata04-data-munging/
