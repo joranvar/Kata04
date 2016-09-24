@@ -1,4 +1,4 @@
-TennisKata
+Kata04
 ==========
 
 New Haskell project using stack template `tasty-travis`.
