@@ -31,4 +31,7 @@ huTests =
   [ testCase "Parse day 1 correctly" $
     (parse "   1  88    59    74          53.8       0.00 F       280  9.6 270  17  1.6  93 23 1004.5")
     @?= Weather 1 88 59
+  , testCase "Parse day 2 correctly" $
+    (parse "   2  79    63    71          46.5       0.00         330  8.7 340  23  3.3  70 28 1004.5")
+    @?= Weather 2 79 63
   ]
