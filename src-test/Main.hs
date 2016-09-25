@@ -34,4 +34,6 @@ huTests =
   , testCase "Parse day 2 correctly" $
     (parse "   2  79    63    71          46.5       0.00         330  8.7 340  23  3.3  70 28 1004.5")
     @?= Weather 2 79 63
+  , testCase "End goal" $
+    smallestSpreadDay "weather.dat" @=? 0
   ]
