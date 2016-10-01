@@ -38,4 +38,6 @@ huTests dat =
     @?= Weather 9 86 32
   , testCase "Can parse whole weather file" $
     (head $ readWeatherData $ head dat) @?= Weather 1 88 59
+  , testCase "Can find smallest spread from file" $
+    (day $ smallestSpread $ readWeatherData $ head dat) @?= 14
   ]

@@ -7,7 +7,13 @@ module Lib
     -- * Reading functions
   , readWeather
   , readWeatherData
+
+    -- * Util functions
+  , smallestSpread
   ) where
+
+import Data.Function (on)
+import Data.List (minimumBy)
 
 data Weather = Weather { day::Int
                        , maxTemp::Int
@@ -21,4 +27,7 @@ readWeather s =
   in Weather da ma mi
 
 readWeatherData :: String -> [Weather]
-readWeatherData = map readWeather . drop 2 . lines
+readWeatherData = map readWeather . reverse . drop 1 . reverse . drop 2 . lines
+
+smallestSpread :: [Weather] -> Weather
+smallestSpread = minimumBy (compare `on` \w -> maxTemp w - minTemp w)
