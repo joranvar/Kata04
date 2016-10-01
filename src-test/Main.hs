@@ -31,4 +31,7 @@ huTests =
   [ testCase "Can parse first line of weather data" $
     readWeather "   1  88    59    74          53.8       0.00 F       280  9.6 270  17  1.6  93 23 1004.5"
     @?= Weather 1 88 59
+  , testCase "Can parse line of weather data with asterisk" $
+    readWeather "   9  86    32*   59       6  61.5       0.00         240  7.6 220  12  6.0  78 46 1018.6"
+    @?= Weather 9 86 32
   ]

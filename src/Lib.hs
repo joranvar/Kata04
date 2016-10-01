@@ -16,5 +16,5 @@ data Weather = Weather { day::Int
 readWeather :: String -- ^ The input line
             -> Weather -- ^ The parsed data
 readWeather s =
-  let da:ma:mi:[] = map read . take 3 . words $ s
+  let da:ma:mi:[] = map read . take 3 . words . filter (/= '*') $ s
   in Weather da ma mi
