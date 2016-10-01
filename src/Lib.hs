@@ -4,8 +4,9 @@ module Lib
     -- * Domain types
     Weather(..)
 
-    -- * Reading function
+    -- * Reading functions
   , readWeather
+  , readWeatherData
   ) where
 
 data Weather = Weather { day::Int
@@ -18,3 +19,6 @@ readWeather :: String -- ^ The input line
 readWeather s =
   let da:ma:mi:[] = map read . take 3 . words . filter (/= '*') $ s
   in Weather da ma mi
+
+readWeatherData :: String -> [Weather]
+readWeatherData = map readWeather . drop 2 . lines
