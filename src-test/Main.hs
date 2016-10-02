@@ -31,4 +31,7 @@ huTests =
   [ testCase "Can read first line of record" $
     readWeather "   1  88    59    74          53.8       0.00 F       280  9.6 270  17  1.6  93 23 1004.5"
       @?= Just (Weather 1 88 59)
+  , testCase "Can read ninth line of record" $
+    readWeather "   9  86    32*   59       6  61.5       0.00         240  7.6 220  12  6.0  78 46 1018.6"
+      @?= Just (Weather 9 86 32)
   ]

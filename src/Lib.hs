@@ -21,4 +21,6 @@ spread Weather{..} = maxTemp - minTemp
 
 -- | Turn a string in a Weather record if the data is parseable
 readWeather :: String -> Maybe Weather
-readWeather _ = Just $ Weather 1 88 59
+readWeather s =
+  let [d,ma,mi] = take 3 $ words $ filter (/= '*') s
+  in Just $ Weather (read d) (read ma) (read mi)
