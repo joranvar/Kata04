@@ -34,4 +34,7 @@ huTests =
   , testCase "Can skip the header line" $
     maybeParseWeather "  Dy MxT   MnT   AvT   HDDay  AvDP 1HrP TPcpn WxType PDir AvSp Dir MxS SkyC MxR MnR AvSLP"
       @?= Nothing
+  , testCase "Can parse the ninth record of weather.dat (asterisk)" $
+    maybeParseWeather "   9  86    32*   59       6  61.5       0.00         240  7.6 220  12  6.0  78 46 1018.6"
+      @?= (Just $ Weather 9 86 32)
   ]
