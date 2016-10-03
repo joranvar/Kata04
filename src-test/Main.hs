@@ -7,7 +7,7 @@ import Test.Tasty.HUnit
 import Test.Tasty.SmallCheck
 import Test.SmallCheck.Series
 
-import Lib ()
+import Lib
 instance (Monad m, Enum a, Bounded a) => Serial m a where
   series = generate (\d -> take d [minBound .. maxBound])
 
@@ -28,6 +28,7 @@ scTests =
 
 huTests :: [TestTree]
 huTests =
-  [ testCase "True is True" $
-    True @?= True
+  [ testCase "Can parse the first record of weather.dat" $
+    maybeParseWeather "   1  88    59    74          53.8       0.00 F       280  9.6 270  17  1.6  93 23 1004.5"
+      @?= (Just $ Weather 1 88 59)
   ]

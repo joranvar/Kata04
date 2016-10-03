@@ -11,6 +11,7 @@ module Lib
 
   -- * File functions
   , parseWeatherData
+  , maybeParseWeather
   ) where
 
 import Data.Maybe (catMaybes)
@@ -19,6 +20,7 @@ import Data.Maybe (catMaybes)
 data Weather = Weather { day::Int
                        , maxTemp::Int
                        , minTemp::Int }
+  deriving (Eq, Show)
 
 -- | Get the temperature spread (max-min)
 spread :: Weather -> Int
