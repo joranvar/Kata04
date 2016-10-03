@@ -37,4 +37,7 @@ huTests =
   , testCase "Can parse the ninth record of weather.dat (asterisk)" $
     maybeParseWeather "   9  86    32*   59       6  61.5       0.00         240  7.6 220  12  6.0  78 46 1018.6"
       @?= (Just $ Weather 9 86 32)
+  , testCase "Can parse the twentysixth record of weather.dat (asterisk)" $
+    maybeParseWeather "  26  97*   64    81          70.4       0.00 H       050  5.1 200  12  4.0 107 45 1014.9"
+      @?= (Just $ Weather 26 97 64)
   ]
