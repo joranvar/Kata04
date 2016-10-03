@@ -12,12 +12,14 @@ instance (Monad m, Enum a, Bounded a) => Serial m a where
   series = generate (\d -> take d [minBound .. maxBound])
 
 main :: IO ()
-main = defaultMain $ testGroup "all-tests" tests
+main = do
+  dat <- readFile "data/weather.dat"
+  defaultMain $ testGroup "all-tests" $ tests dat
 
-tests :: [TestTree]
-tests =
+tests :: String -> [TestTree]
+tests dat =
   [ testGroup "SmallCheck" scTests
-  , testGroup "Unit tests" huTests
+  , testGroup "Unit tests" $ huTests dat
   ]
 
 scTests :: [TestTree]
@@ -26,8 +28,8 @@ scTests =
     \x -> id (x::Int) == x
   ]
 
-huTests :: [TestTree]
-huTests =
+huTests :: String -> [TestTree]
+huTests dat =
   [ testCase "Can parse the first record of weather.dat" $
     maybeParseWeather "   1  88    59    74          53.8       0.00 F       280  9.6 270  17  1.6  93 23 1004.5"
       @?= (Just $ Weather 1 88 59)
@@ -43,4 +45,6 @@ huTests =
   , testCase "Will skip the totals line" $
     maybeParseWeather "  mo  82.9  60.5  71.7    16  58.8       0.00              6.9          5.3"
       @?= Nothing
+  , testCase "Can parse the whole file" $
+    (head $ parseWeatherData dat) @?= Weather 1 88 59
   ]

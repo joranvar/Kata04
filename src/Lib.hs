@@ -9,7 +9,7 @@ module Lib
     -- * Weather functions
   , spread
 
-  -- * File functions
+    -- * File functions
   , parseWeatherData
   , maybeParseWeather
   ) where
