@@ -33,6 +33,8 @@ parseWeatherData = catMaybes . map maybeParseWeather . lines
 -- | Parse a single line to a Weather record, if valid
 maybeParseWeather :: String -> Maybe Weather
 maybeParseWeather s =
-  let [d,ma,mi] = take 3 . catMaybes . map maybeParseInt $ words s
+  let ints = take 3 . catMaybes . map maybeParseInt $ words s
       maybeParseInt = fmap fst . listToMaybe . reads
-  in Just $ Weather d ma mi
+  in case ints of
+       [d, ma, mi] -> Just $ Weather d ma mi
+       _ -> Nothing
