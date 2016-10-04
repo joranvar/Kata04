@@ -40,4 +40,6 @@ huTests weatherDat =
     parse (lines weatherDat!!1) @?= Nothing
   , testCase "Parse header line returns Nothing" $
     parse (lines weatherDat!!0) @?= Nothing
+  , testCase "Parse list line returns Nothing" $
+    parse (last $ lines weatherDat) @?= Nothing
   ]
