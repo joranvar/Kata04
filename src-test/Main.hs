@@ -31,9 +31,9 @@ scTests =
 huTests :: String -> [TestTree]
 huTests weatherDat =
   [ testCase "Parse third line of file correctly" $
-    parse (lines weatherDat!!2) @?= Weather 1 88 59
+    parse (lines weatherDat!!2) @?= (Just $ Weather 1 88 59)
   , testCase "Parse line with asterisk correctly" $
-    parse (lines weatherDat!!10) @?= Weather 9 86 32
+    parse (lines weatherDat!!10) @?= (Just $ Weather 9 86 32)
   , testCase "Parse other line with asterisk correctly" $
-    parse (lines weatherDat!!27) @?= Weather 26 97 64
+    parse (lines weatherDat!!27) @?= (Just $ Weather 26 97 64)
   ]
