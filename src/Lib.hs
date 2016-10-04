@@ -7,8 +7,14 @@ module Lib
     Weather(..)
     -- * Weather functions
   , spread
+  , dayWithMinSpread
   , parse
+  , parseFile
   ) where
+
+import Data.List (minimumBy)
+import Data.Maybe (catMaybes)
+import Data.Ord (comparing)
 
 data Weather = Weather { day::Int
                        , maxTemp::Int
@@ -24,3 +30,9 @@ parse s =
   case map (map fst . reads) . take 3 $ words s of
     [[d],[mx],[mn]] -> Just $ Weather d mx mn
     _ -> Nothing
+
+parseFile :: String -> [Weather]
+parseFile = catMaybes . map parse . lines
+
+dayWithMinSpread :: [Weather] -> Int
+dayWithMinSpread = day . minimumBy (comparing spread)

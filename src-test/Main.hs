@@ -42,4 +42,6 @@ huTests weatherDat =
     parse (lines weatherDat!!0) @?= Nothing
   , testCase "Parse list line returns Nothing" $
     parse (last $ lines weatherDat) @?= Nothing
+  , testCase "Gets min spread day right" $
+    (dayWithMinSpread $ parseFile weatherDat) @?= 14
   ]
