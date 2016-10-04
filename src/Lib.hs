@@ -20,4 +20,4 @@ spread :: Weather -> Int
 spread Weather{..} = maxTemp - minTemp
 
 parse :: String -> Weather
-parse s = let [d,mx,mn] = map read . take 3 $ words s in Weather d mx mn
+parse s = let [d,mx,mn] = map (fst.head.reads) . take 3 $ words s in Weather d mx mn
