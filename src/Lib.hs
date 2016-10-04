@@ -21,6 +21,6 @@ spread Weather{..} = maxTemp - minTemp
 
 parse :: String -> Maybe Weather
 parse s =
-  case map (fst.head.reads) . take 3 $ words s of
-    [d,mx,mn] -> Just $ Weather d mx mn
+  case map (map fst . reads) . take 3 $ words s of
+    [[d],[mx],[mn]] -> Just $ Weather d mx mn
     _ -> Nothing
