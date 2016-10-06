@@ -5,9 +5,10 @@ module Lib
     Weather(..)
   -- * Exported functions
   , parse
+  , parseFile
   ) where
 
-import Data.Maybe (listToMaybe)
+import Data.Maybe (listToMaybe, catMaybes)
 
 -- | A weather record
 data Weather = Weather { day::Int
@@ -21,3 +22,7 @@ parse s =
   case map (fmap fst . listToMaybe . reads) . take 3 $ words s of
     [Just dy, Just mxT, Just mnT] -> Just $ Weather dy mxT mnT
     _ -> Nothing
+
+-- | Parse a whole file
+parseFile :: String -> [Weather]
+parseFile = catMaybes . map parse . lines

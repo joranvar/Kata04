@@ -34,4 +34,5 @@ huTests weatherDat =
     parse (head . lines $ weatherDat) @?= Nothing
   , testCase "Can parse first real data line" $
     parse (head . drop 2 . lines $ weatherDat) @?= Just (Weather 1 88 59)
+  , testCase "Can parse whole file" $ (length $ parseFile weatherDat) @?= 30
   ]
