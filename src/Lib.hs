@@ -7,6 +7,8 @@ module Lib
   , parse
   ) where
 
+import Data.Maybe (listToMaybe)
+
 -- | A weather record
 data Weather = Weather { day::Int
                        , mx::Int
@@ -15,4 +17,7 @@ data Weather = Weather { day::Int
 
 -- | Parse a record from a string
 parse :: String -> Maybe Weather
-parse _ = Nothing
+parse s =
+  case map (fmap fst . listToMaybe . reads) . take 3 $ words s of
+    [Just dy, Just mxT, Just mnT] -> Just $ Weather dy mxT mnT
+    _ -> Nothing

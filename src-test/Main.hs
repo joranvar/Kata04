@@ -32,4 +32,6 @@ huTests :: String -> [TestTree]
 huTests weatherDat =
   [ testCase "Can parse first line" $
     parse (head . lines $ weatherDat) @?= Nothing
+  , testCase "Can parse first real data line" $
+    parse (head . drop 2 . lines $ weatherDat) @?= Just (Weather 1 88 59)
   ]
