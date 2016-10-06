@@ -36,19 +36,19 @@ scTests =
 huTests :: String -> [TestTree]
 huTests weatherDat =
   [ testCase "Can parse first line" $
-    parse (head . lines $ weatherDat) @?= Nothing
+    parse (head . lines $ weatherDat) @?= (Nothing::Maybe Weather)
   , testCase "Can parse first real data line" $
     parse (head . drop 2 . lines $ weatherDat) @?= Just (Weather 1 88 59)
-  , testCase "Can parse whole file" $ (length $ parseFile weatherDat) @?= 30
+  , testCase "Can parse whole file" $ (length $ (parses::String -> [Weather]) weatherDat) @?= 30
   , testCase "Can answer the question" $ answer4 weatherDat @?= 14
   ]
 
 footballTests :: String -> [TestTree]
 footballTests footballDat =
   [ testCase "Can parse first line" $
-    parseT (head . lines $ footballDat) @?= Nothing
+    parse (head . lines $ footballDat) @?= (Nothing::Maybe Team)
   , testCase "Can parse first real data line" $
-    parseT (head . drop 1 . lines $ footballDat) @?= Just (Team "Arsenal" 79 36)
-  , testCase "Can parse whole file" $ (length $ parseFileT footballDat) @?= 20
+    parse (head . drop 1 . lines $ footballDat) @?= Just (Team "Arsenal" 79 36)
+  , testCase "Can parse whole file" $ (length $ (parses::String -> [Team]) footballDat) @?= 20
   , testCase "Can answer the question" $ answer4T footballDat @?= "Aston_Villa"
   ]
