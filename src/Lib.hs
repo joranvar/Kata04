@@ -6,9 +6,12 @@ module Lib
   -- * Exported functions
   , parse
   , parseFile
+  , answer4
   ) where
 
+import Data.List (minimumBy)
 import Data.Maybe (listToMaybe, catMaybes)
+import Data.Ord (comparing)
 
 -- | A weather record
 data Weather = Weather { day::Int
@@ -26,3 +29,7 @@ parse s =
 -- | Parse a whole file
 parseFile :: String -> [Weather]
 parseFile = catMaybes . map parse . lines
+
+-- | Answers the day old question: what is the day with the smallest temperature spread in this file?
+answer4 :: String -> Int
+answer4 = day . minimumBy (comparing (\w -> mx w - mn w)) . parseFile
