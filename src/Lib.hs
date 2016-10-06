@@ -31,9 +31,9 @@ data Weather = Weather { day::Int
 
 instance Record Weather where
   parse s = Weather
-            <$> (maybeRead =<< (maybeAt 0 $ words s))
-            <*> (maybeRead =<< (maybeAt 1 $ words s))
-            <*> (maybeRead =<< (maybeAt 2 $ words s))
+            <$> maybeField s 0
+            <*> maybeField s 1
+            <*> maybeField s 2
 
 maybeRead :: (Read a) => String -> Maybe a
 maybeRead = fmap fst . listToMaybe . reads
@@ -43,6 +43,9 @@ maybeHead = fmap fst . uncons
 
 maybeAt :: Int -> [a] -> Maybe a
 maybeAt n = maybeHead . drop n
+
+maybeField :: (Read a) => String -> Int -> Maybe a
+maybeField s n = maybeRead =<< (maybeAt n $ words s)
 
 -- | Answers the day old question: what is the day with the smallest temperature spread in this file?
 answer4 :: String -> Int
@@ -57,8 +60,8 @@ data Team = Team { name::String
 instance Record Team where
   parse s = Team
             <$> (maybeAt 1 $ words s)
-            <*> (maybeRead =<< (maybeAt 6 $ words s))
-            <*> (maybeRead =<< (maybeAt 8 $ words s))
+            <*> maybeField s 6
+            <*> maybeField s 8
 
 -- | Answers the burning question: what team has the smallest difference between for and against?
 answer4T :: String -> String
