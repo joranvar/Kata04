@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
@@ -14,13 +15,17 @@ instance (Monad m, Enum a, Bounded a) => Serial m a where
 main :: IO ()
 main = do
   weatherDat <- readFile "data/weather.dat"
-  defaultMain $ testGroup "all-tests" $ tests weatherDat
+  footballDat <- readFile "data/football.dat"
+  defaultMain $ testGroup "all-tests" $ tests [weatherDat, footballDat]
 
-tests :: String -> [TestTree]
-tests weatherDat =
-  [ testGroup "SmallCheck" scTests
-  , testGroup "Unit tests" $ huTests weatherDat
-  ]
+tests :: [String] -> [TestTree]
+tests = \case
+  [weather, football] ->
+    [ testGroup "SmallCheck" scTests
+    , testGroup "Weather unit tests" $ huTests weather
+    , testGroup "Football unit tests" $ footballTests football
+    ]
+  _ -> undefined
 
 scTests :: [TestTree]
 scTests =
@@ -36,4 +41,12 @@ huTests weatherDat =
     parse (head . drop 2 . lines $ weatherDat) @?= Just (Weather 1 88 59)
   , testCase "Can parse whole file" $ (length $ parseFile weatherDat) @?= 30
   , testCase "Can answer the question" $ answer4 weatherDat @?= 14
+  ]
+
+footballTests :: String -> [TestTree]
+footballTests footballDat =
+  [ testCase "Can parse first line" $
+    parseT (head . lines $ footballDat) @?= Nothing
+  , testCase "Can parse first real data line" $
+    parseT (head . drop 1 . lines $ footballDat) @?= Just (Team "Arsenal" 79 36)
   ]

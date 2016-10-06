@@ -3,12 +3,18 @@ module Lib
   (
     -- * Exported types
     Weather(..)
-  -- * Exported functions
+  , Team(..)
+  -- * Exported weather functions
   , parse
   , parseFile
   , answer4
+  -- * Exported team functions
+  , parseT
+  , parseFileT
+  , answer4T
   ) where
 
+import Control.Arrow ((***))
 import Data.List (minimumBy)
 import Data.Maybe (listToMaybe, catMaybes)
 import Data.Ord (comparing)
@@ -33,3 +39,24 @@ parseFile = catMaybes . map parse . lines
 -- | Answers the day old question: what is the day with the smallest temperature spread in this file?
 answer4 :: String -> Int
 answer4 = day . minimumBy (comparing (\w -> mx w - mn w)) . parseFile
+
+-- | A team record
+data Team = Team { name::String
+                 , for::Int
+                 , against::Int }
+  deriving (Eq, Show)
+
+-- | Parse a record from a string
+parseT :: String -> Maybe Team
+parseT s =
+  case (take 1 . drop 1) *** (map (fmap fst . listToMaybe . reads)) $ splitAt 2 $ words s of
+    ([team], [_p, _w, _l, _d, Just f, _dash, Just a, _pts]) -> Just $ Team team f a
+    _ -> Nothing
+
+-- | Parse a whole file
+parseFileT :: String -> [Weather]
+parseFileT = undefined
+
+-- | Answers the burning question: what team has the smallest difference between for and against?
+answer4T :: String -> Int
+answer4T = undefined
