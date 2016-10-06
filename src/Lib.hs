@@ -58,5 +58,5 @@ parseFileT :: String -> [Team]
 parseFileT = catMaybes . map parseT . lines
 
 -- | Answers the burning question: what team has the smallest difference between for and against?
-answer4T :: String -> Int
-answer4T = undefined
+answer4T :: String -> String
+answer4T = name . minimumBy (comparing (\t -> abs $ for t - against t)) . parseFileT

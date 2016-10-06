@@ -50,4 +50,5 @@ footballTests footballDat =
   , testCase "Can parse first real data line" $
     parseT (head . drop 1 . lines $ footballDat) @?= Just (Team "Arsenal" 79 36)
   , testCase "Can parse whole file" $ (length $ parseFileT footballDat) @?= 20
+  , testCase "Can answer the question" $ answer4T footballDat @?= "Aston_Villa"
   ]
