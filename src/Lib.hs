@@ -23,18 +23,6 @@ class Record r where
   parses :: String -> [r]
   parses = catMaybes . map parse . lines
 
--- | A weather record
-data Weather = Weather { day::Int
-                       , mx::Int
-                       , mn::Int }
-  deriving (Eq, Show)
-
-instance Record Weather where
-  parse s = Weather
-            <$> maybeField s 0
-            <*> maybeField s 1
-            <*> maybeField s 2
-
 maybeRead :: (Read a) => String -> Maybe a
 maybeRead = fmap fst . listToMaybe . reads
 
@@ -46,6 +34,18 @@ maybeAt n = maybeHead . drop n
 
 maybeField :: (Read a) => String -> Int -> Maybe a
 maybeField s n = maybeRead =<< (maybeAt n $ words s)
+
+-- | A weather record
+data Weather = Weather { day::Int
+                       , mx::Int
+                       , mn::Int }
+  deriving (Eq, Show)
+
+instance Record Weather where
+  parse s = Weather
+            <$> maybeField s 0
+            <*> maybeField s 1
+            <*> maybeField s 2
 
 -- | Answers the day old question: what is the day with the smallest temperature spread in this file?
 answer4 :: String -> Int
