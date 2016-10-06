@@ -54,8 +54,8 @@ parseT s =
     _ -> Nothing
 
 -- | Parse a whole file
-parseFileT :: String -> [Weather]
-parseFileT = undefined
+parseFileT :: String -> [Team]
+parseFileT = catMaybes . map parseT . lines
 
 -- | Answers the burning question: what team has the smallest difference between for and against?
 answer4T :: String -> Int
