@@ -12,8 +12,7 @@ module Lib
   , answer4T
   ) where
 
-import Control.Arrow ((***))
-import Data.List (minimumBy)
+import Data.List (minimumBy, uncons)
 import Data.Maybe (listToMaybe, catMaybes)
 import Data.Ord (comparing)
 
@@ -31,12 +30,19 @@ data Weather = Weather { day::Int
   deriving (Eq, Show)
 
 instance Record Weather where
-  parse s = case map maybeRead . take 3 $ words s of
-              [dy, mxT, mnT] -> Weather <$> dy <*> mxT <*> mnT
-              _ -> Nothing
+  parse s = Weather
+            <$> (maybeRead =<< (maybeAt 0 $ words s))
+            <*> (maybeRead =<< (maybeAt 1 $ words s))
+            <*> (maybeRead =<< (maybeAt 2 $ words s))
 
 maybeRead :: (Read a) => String -> Maybe a
 maybeRead = fmap fst . listToMaybe . reads
+
+maybeHead :: [a] -> Maybe a
+maybeHead = fmap fst . uncons
+
+maybeAt :: Int -> [a] -> Maybe a
+maybeAt n = maybeHead . drop n
 
 -- | Answers the day old question: what is the day with the smallest temperature spread in this file?
 answer4 :: String -> Int
@@ -49,9 +55,10 @@ data Team = Team { name::String
   deriving (Eq, Show)
 
 instance Record Team where
-  parse  s = case (take 1 . drop 1) *** (map maybeRead) $ splitAt 2 $ words s of
-               ([team], [_p, _w, _l, _d, f, _dash, a, _pts]) -> Team team <$> f <*> a
-               _ -> Nothing
+  parse s = Team
+            <$> (maybeAt 1 $ words s)
+            <*> (maybeRead =<< (maybeAt 6 $ words s))
+            <*> (maybeRead =<< (maybeAt 8 $ words s))
 
 -- | Answers the burning question: what team has the smallest difference between for and against?
 answer4T :: String -> String
