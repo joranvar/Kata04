@@ -32,7 +32,7 @@ maybeRead = fmap fst . listToMaybe . reads
 parse :: String -> Maybe Weather
 parse s =
   case map maybeRead . take 3 $ words s of
-    [Just dy, Just mxT, Just mnT] -> Just $ Weather dy mxT mnT
+    [dy, mxT, mnT] -> Weather <$> dy <*> mxT <*> mnT
     _ -> Nothing
 
 -- | Parse a whole file
@@ -53,7 +53,7 @@ data Team = Team { name::String
 parseT :: String -> Maybe Team
 parseT s =
   case (take 1 . drop 1) *** (map maybeRead) $ splitAt 2 $ words s of
-    ([team], [_p, _w, _l, _d, Just f, _dash, Just a, _pts]) -> Just $ Team team f a
+    ([team], [_p, _w, _l, _d, f, _dash, a, _pts]) -> Team team <$> f <*> a
     _ -> Nothing
 
 -- | Parse a whole file
