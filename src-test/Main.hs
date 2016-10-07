@@ -55,8 +55,8 @@ huSoccerTests :: String -> [TestTree]
 huSoccerTests soccer =
   [ testCase "Can parse first record from soccer file" $
     (parse $ (lines soccer)!!1) @?= Just (Soccer "Arsenal" 79 36)
-  -- , testCase "Can parse whole soccer file" $
-  --   length (parseMany soccer :: [Soccer]) @?= 30
+   , testCase "Can parse whole soccer file" $
+     length (parseMany soccer :: [Soccer]) @?= 20
   -- , testCase "Can solve soccer question" $
   --   minSpreadDay (parseMany soccer) @?= 14
   ]
