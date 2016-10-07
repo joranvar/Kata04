@@ -13,9 +13,12 @@ module Lib
   , Weather(..)
     -- * Weather functions
   , spread
+  , minSpreadDay
   ) where
 
+import Data.List (minimumBy)
 import Data.Maybe (listToMaybe, catMaybes)
+import Data.Ord (comparing)
 
 class Record r where
   parse :: String -> Maybe r
@@ -29,7 +32,7 @@ maybeWord n = listToMaybe . drop n . words
 parseMany :: (Record r) => String -> [r]
 parseMany = catMaybes . map parse . lines
 
-data Weather = Weather { day::Int, mnT::Int, mxT::Int }
+data Weather = Weather { day::Int, mxT::Int, mnT::Int }
   deriving (Eq, Show)
 instance Record Weather where
   parse s = Weather
@@ -39,3 +42,6 @@ instance Record Weather where
 
 spread :: Weather -> Int
 spread Weather{..} = mxT - mnT
+
+minSpreadDay :: [Weather] -> Int
+minSpreadDay = day . minimumBy (comparing spread)

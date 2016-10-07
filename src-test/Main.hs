@@ -40,4 +40,6 @@ huTests weather =
     (parse $ (lines weather)!!2) @?= Just (Weather 1 88 59)
   , testCase "Can parse whole weather file" $
     length (parseMany weather :: [Weather]) @?= 30
+  , testCase "Can solve weather question" $
+    minSpreadDay (parseMany weather) @?= 14
   ]
