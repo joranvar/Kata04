@@ -24,6 +24,8 @@ scTests :: [TestTree]
 scTests =
   [ testProperty "maybeParse . show (x::Int) -> Just x" $
     \x -> (maybeParse . show) (x::Int) == Just x
+  , testProperty "maybeParse . show (x::Int) ++ '*' ++ String -> Just x" $
+    \x s -> maybeParse (show (x::Int) ++ ":" ++ s) == Just x
   ]
 
 huTests :: [TestTree]
