@@ -3,11 +3,16 @@
 
 module Lib
   (
+    -- * Record class
+    Record(..)
     -- * Domain types
-    Weather(..)
+  , Weather(..)
     -- * Weather functions
   , spread
   ) where
+
+class Record r where
+  parse :: String -> Maybe r
 
 data Weather = Weather { day::Int, mnT::Int, mxT::Int }
   deriving (Eq, Show)
