@@ -57,6 +57,6 @@ huSoccerTests soccer =
     (parse $ (lines soccer)!!1) @?= Just (Soccer "Arsenal" 79 36)
    , testCase "Can parse whole soccer file" $
      length (parseMany soccer :: [Soccer]) @?= 20
-  -- , testCase "Can solve soccer question" $
-  --   minSpreadDay (parseMany soccer) @?= 14
+   , testCase "Can solve soccer question" $
+     minGoalDiffTeam (parseMany soccer) @?= "Aston_Villa"
   ]

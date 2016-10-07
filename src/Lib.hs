@@ -17,6 +17,7 @@ module Lib
   , minSpreadDay
     -- * Soccer functions
   , goalDiff
+  , minGoalDiffTeam
   ) where
 
 import Data.List (minimumBy)
@@ -59,3 +60,6 @@ instance Record Soccer where
 
 goalDiff :: Soccer -> Int
 goalDiff Soccer{..} = abs $ a - f
+
+minGoalDiffTeam :: [Soccer] -> String
+minGoalDiffTeam = team . minimumBy (comparing goalDiff)
