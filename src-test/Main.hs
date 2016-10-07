@@ -38,4 +38,6 @@ huTests weather =
     maybeWord 1 "abc" @?= Nothing
   , testCase "Can parse first record from weather file" $
     (parse $ (lines weather)!!2) @?= Just (Weather 1 88 59)
+  , testCase "Can parse whole weather file" $
+    length (parseMany weather :: [Weather]) @?= 30
   ]
