@@ -27,6 +27,11 @@ maybeWord n = listToMaybe . drop n . words
 
 data Weather = Weather { day::Int, mnT::Int, mxT::Int }
   deriving (Eq, Show)
+instance Record Weather where
+  parse s = Weather
+            <$> (maybeParse =<< maybeWord 0 s)
+            <*> (maybeParse =<< maybeWord 1 s)
+            <*> (maybeParse =<< maybeWord 2 s)
 
 spread :: Weather -> Int
 spread Weather{..} = mxT - mnT
