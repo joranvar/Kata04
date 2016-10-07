@@ -11,6 +11,7 @@ module Lib
   , parseMany
     -- * Domain types
   , Weather(..)
+  , Soccer(..)
     -- * Weather functions
   , spread
   , minSpreadDay
@@ -45,3 +46,11 @@ spread Weather{..} = mxT - mnT
 
 minSpreadDay :: [Weather] -> Int
 minSpreadDay = day . minimumBy (comparing spread)
+
+data Soccer = Soccer { team::String, f::Int, a::Int }
+  deriving (Eq, Show)
+instance Record Soccer where
+  parse s = Soccer
+            <$> (maybeWord 1 s)
+            <*> (maybeParse =<< maybeWord 6 s)
+            <*> (maybeParse =<< maybeWord 8 s)
