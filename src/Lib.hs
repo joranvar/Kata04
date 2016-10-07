@@ -6,7 +6,7 @@ module Lib
     -- * Record class
     Record(..)
     -- * Record helper functions
-  , maybeParse
+  , maybeRead
   , maybeWord
   , parseMany
     -- * Domain types
@@ -27,8 +27,8 @@ import Data.Ord (comparing)
 class Record r where
   parse :: String -> Maybe r
 
-maybeParse :: (Read a) => String -> Maybe a
-maybeParse = fmap fst . listToMaybe . reads
+maybeRead :: (Read a) => String -> Maybe a
+maybeRead = fmap fst . listToMaybe . reads
 
 maybeWord :: Int -> String -> Maybe String
 maybeWord n = listToMaybe . drop n . words
@@ -40,9 +40,9 @@ data Weather = Weather { day::Int, mxT::Int, mnT::Int }
   deriving (Eq, Show)
 instance Record Weather where
   parse s = Weather
-            <$> (maybeParse =<< maybeWord 0 s)
-            <*> (maybeParse =<< maybeWord 1 s)
-            <*> (maybeParse =<< maybeWord 2 s)
+            <$> (maybeRead =<< maybeWord 0 s)
+            <*> (maybeRead =<< maybeWord 1 s)
+            <*> (maybeRead =<< maybeWord 2 s)
 
 spread :: Weather -> Int
 spread Weather{..} = mxT - mnT
@@ -55,8 +55,8 @@ data Soccer = Soccer { team::String, f::Int, a::Int }
 instance Record Soccer where
   parse s = Soccer
             <$> (maybeWord 1 s)
-            <*> (maybeParse =<< maybeWord 6 s)
-            <*> (maybeParse =<< maybeWord 8 s)
+            <*> (maybeRead =<< maybeWord 6 s)
+            <*> (maybeRead =<< maybeWord 8 s)
 
 goalDiff :: Soccer -> Int
 goalDiff Soccer{..} = abs $ a - f
