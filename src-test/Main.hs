@@ -7,7 +7,7 @@ import Test.Tasty.HUnit
 import Test.Tasty.SmallCheck
 import Test.SmallCheck.Series
 
-import Lib ()
+import Lib
 instance (Monad m, Enum a, Bounded a) => Serial m a where
   series = generate (\d -> take d [minBound .. maxBound])
 
@@ -22,8 +22,8 @@ tests =
 
 scTests :: [TestTree]
 scTests =
-  [ testProperty "id x == x" $
-    \x -> id (x::Int) == x
+  [ testProperty "maybeParse . show (x::Int) -> Just x" $
+    \x -> (maybeParse . show) (x::Int) == Just x
   ]
 
 huTests :: [TestTree]
