@@ -15,6 +15,8 @@ module Lib
     -- * Weather functions
   , spread
   , minSpreadDay
+    -- * Soccer functions
+  , goalDiff
   ) where
 
 import Data.List (minimumBy)
@@ -54,3 +56,6 @@ instance Record Soccer where
             <$> (maybeWord 1 s)
             <*> (maybeParse =<< maybeWord 6 s)
             <*> (maybeParse =<< maybeWord 8 s)
+
+goalDiff :: Soccer -> Int
+goalDiff Soccer{..} = abs $ a - f
