@@ -7,6 +7,7 @@ module Lib
     Record(..)
     -- * Record helper functions
   , maybeParse
+  , maybeWord
     -- * Domain types
   , Weather(..)
     -- * Weather functions
@@ -20,6 +21,9 @@ class Record r where
 
 maybeParse :: (Read a) => String -> Maybe a
 maybeParse = fmap fst . listToMaybe . reads
+
+maybeWord :: Int -> String -> Maybe String
+maybeWord n = listToMaybe . drop n . words
 
 data Weather = Weather { day::Int, mnT::Int, mxT::Int }
   deriving (Eq, Show)

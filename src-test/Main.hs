@@ -30,6 +30,8 @@ scTests =
 
 huTests :: [TestTree]
 huTests =
-  [ testCase "True is True" $
-    True @?= True
+  [ testCase "maybeWord 1 'a b c' == Just b" $
+    maybeWord 1 "a b c" @?= Just "b"
+  , testCase "maybeWord 1 'abc' == Nothing" $
+    maybeWord 1 "abc" @?= Nothing
   ]
