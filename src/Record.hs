@@ -9,6 +9,7 @@ module Record
   , maybeRead
   , maybeWord
   , maybeRange
+  , trim
   ) where
 
 import Data.Maybe (listToMaybe)
@@ -24,3 +25,6 @@ maybeWord n = listToMaybe . drop n . words
 
 maybeRange :: (Int, Int) -> String -> String
 maybeRange (x, y) = take (y - x) . drop x
+
+trim :: String -> String
+trim = reverse . dropWhile (== ' ') . reverse . dropWhile (== ' ')

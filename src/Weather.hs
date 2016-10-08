@@ -39,7 +39,7 @@ instance Record Weather where
             <*> Just Nothing -- (maybeRead $ maybeRange (20,28) s)
             <*> (maybeRead $ maybeRange (28,34) s)
             <*> (maybeRead $ maybeRange (39,45) s)
-            <*> (Just $ maybeRange (45,52) s)
+            <*> (Just $ trim $ maybeRange (45,52) s)
             <*> (maybeRead $ maybeRange (52,57) s)
             <*> (maybeRead $ maybeRange (57,62) s)
             <*> (maybeRead $ maybeRange (62,66) s)
