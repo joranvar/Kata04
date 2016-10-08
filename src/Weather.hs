@@ -16,6 +16,7 @@ data Weather = Weather { dy::Int
                        , mxt::Int
                        , mnt::Int
                        , avt::Int
+                       , hdday::Maybe Int
                        , avdp::Double
                        , tpcpn::Double
                        , wxtype::String
@@ -31,21 +32,22 @@ data Weather = Weather { dy::Int
 
 instance Record Weather where
   parse s = Weather
-            <$> (maybeRead =<< maybeWord 0 s)
-            <*> (maybeRead =<< maybeWord 1 s)
-            <*> (maybeRead =<< maybeWord 2 s)
-            <*> (maybeRead =<< maybeWord 3 s)
-            <*> (maybeRead =<< maybeWord 4 s)
-            <*> (maybeRead =<< maybeWord 5 s)
-            <*> (maybeWord 6 s)
-            <*> (maybeRead =<< maybeWord 7 s)
-            <*> (maybeRead =<< maybeWord 8 s)
-            <*> (maybeRead =<< maybeWord 9 s)
-            <*> (maybeRead =<< maybeWord 10 s)
-            <*> (maybeRead =<< maybeWord 11 s)
-            <*> (maybeRead =<< maybeWord 12 s)
-            <*> (maybeRead =<< maybeWord 13 s)
-            <*> (maybeRead =<< maybeWord 14 s)
+            <$> (maybeRead $ maybeRange (0,4) s)
+            <*> (maybeRead $ maybeRange (4,8) s)
+            <*> (maybeRead $ maybeRange (8,14) s)
+            <*> (maybeRead $ maybeRange (14,20) s)
+            <*> Just Nothing -- (maybeRead $ maybeRange (20,28) s)
+            <*> (maybeRead $ maybeRange (28,34) s)
+            <*> (maybeRead $ maybeRange (39,45) s)
+            <*> (Just $ maybeRange (45,52) s)
+            <*> (maybeRead $ maybeRange (52,57) s)
+            <*> (maybeRead $ maybeRange (57,62) s)
+            <*> (maybeRead $ maybeRange (62,66) s)
+            <*> (maybeRead $ maybeRange (66,70) s)
+            <*> (maybeRead $ maybeRange (70,75) s)
+            <*> (maybeRead $ maybeRange (75,79) s)
+            <*> (maybeRead $ maybeRange (79,83) s)
+            <*> (maybeRead $ maybeRange (83,89) s)
 
 spread :: Weather -> Int
 spread Weather{..} = mxt - mnt

@@ -31,5 +31,5 @@ scTests =
 huTests :: String -> [TestTree]
 huTests weather =
   [ testCase "Can parse first record" $
-    parse (head . drop 2 $ lines weather) @?= (Just $ Weather 1 88 59 74 53.8 0.00 "F" 280 9.6 270 17 1.6 93 23 1004.5)
+    parse (head . drop 2 $ lines weather) @?= (Just $ Weather 1 88 59 74 Nothing 53.8 0.00 "F" 280 9.6 270 17 1.6 93 23 1004.5)
   ]
