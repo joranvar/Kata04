@@ -30,6 +30,7 @@ library
   ghc-options:       -Wall -Werror -O2
   hs-source-dirs:    src
   exposed-modules:   Weather
+                   , Soccer
   build-depends:     base >= 4.8 && < 5
 
 executable Kata04-exe
