@@ -6,9 +6,13 @@ module Weather
     -- * Functionality
   , parse
   , parseFile
+  , minDayBySpread
   ) where
 
+import Control.Arrow ((&&&))
+import Data.List (minimumBy)
 import Data.Maybe (listToMaybe, catMaybes)
+import Data.Ord (comparing)
 
 data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
   deriving (Eq, Show)
@@ -27,3 +31,9 @@ parse s = Weather
 
 parseFile :: String -> [Weather]
 parseFile = catMaybes . map parse . lines
+
+spread :: Weather -> Int
+spread = uncurry (-) . (mxT &&& mnT)
+
+minDayBySpread :: [Weather] -> Int
+minDayBySpread = dy . minimumBy (comparing spread)
