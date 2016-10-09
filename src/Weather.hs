@@ -5,9 +5,10 @@ module Weather
     Weather(..)
     -- * Functionality
   , parse
+  , parseFile
   ) where
 
-import Data.Maybe (listToMaybe)
+import Data.Maybe (listToMaybe, catMaybes)
 
 data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
   deriving (Eq, Show)
@@ -23,3 +24,6 @@ parse s = Weather
           <$> (maybeRead =<< maybeWord 0 s)
           <*> (maybeRead =<< maybeWord 1 s)
           <*> (maybeRead =<< maybeWord 2 s)
+
+parseFile :: String -> [Weather]
+parseFile = catMaybes . map parse . lines

@@ -7,7 +7,7 @@ import Test.Tasty.HUnit
 import Test.Tasty.SmallCheck
 import Test.SmallCheck.Series
 
-import Weather (Weather(..), parse)
+import Weather (Weather(..), parse, parseFile)
 instance (Monad m, Enum a, Bounded a) => Serial m a where
   series = generate (\d -> take d [minBound .. maxBound])
 
@@ -37,4 +37,6 @@ weatherTests dat =
     parse header @?= Nothing
   , testCase "Will skip empty line" $
     parse emptyline @?= Nothing
+  , testCase "Can parse whole file" $
+    (length $ parseFile dat) @?= 30
   ]
