@@ -9,11 +9,10 @@ module Weather
   , minDayBySpread
   ) where
 
-import Record (Record(..))
+import Record (Record(..), maybeRead, maybeWord)
 
 import Control.Arrow ((&&&))
 import Data.List (minimumBy)
-import Data.Maybe (listToMaybe)
 import Data.Ord (comparing)
 
 data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
@@ -24,12 +23,6 @@ instance Record Weather where
             <$> (maybeRead =<< maybeWord 0 s)
             <*> (maybeRead =<< maybeWord 1 s)
             <*> (maybeRead =<< maybeWord 2 s)
-
-maybeRead :: (Read a) => String -> Maybe a
-maybeRead = fmap fst . listToMaybe . reads
-
-maybeWord :: Int -> String -> Maybe String
-maybeWord n = listToMaybe . drop n . words
 
 spread :: Weather -> Int
 spread = uncurry (-) . (mxT &&& mnT)
