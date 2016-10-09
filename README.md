@@ -7,3 +7,5 @@ Evaluation
 ----------
 
 Here is where I start Part Three, DRY.
+
+Here is where I start going berserk on the DRY.
