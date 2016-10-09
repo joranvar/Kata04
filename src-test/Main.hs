@@ -30,7 +30,11 @@ scTests =
 
 weatherTests :: String -> [TestTree]
 weatherTests dat =
-  let _header:_emptyline:record1:_rest = lines dat in
+  let header:emptyline:record1:_rest = lines dat in
   [ testCase "Can parse first record" $
     parse record1 @?= (Just $ Weather 1 88 59)
+  , testCase "Will skip header" $
+    parse header @?= Nothing
+  , testCase "Will skip empty line" $
+    parse emptyline @?= Nothing
   ]
