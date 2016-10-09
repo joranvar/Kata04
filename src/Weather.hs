@@ -7,10 +7,9 @@ module Weather
   , minDayBySpread
   ) where
 
-import Record (Record(..), maybeRead, maybeWord)
+import Record (Record(..), maybeRead, maybeWord, find)
 
 import Control.Arrow ((&&&))
-import Data.List (minimumBy)
 import Data.Ord (comparing)
 
 data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
@@ -26,4 +25,4 @@ spread :: Weather -> Int
 spread = uncurry (-) . (mxT &&& mnT)
 
 minDayBySpread :: [Weather] -> Int
-minDayBySpread = dy . minimumBy (comparing spread)
+minDayBySpread = find dy (comparing spread)

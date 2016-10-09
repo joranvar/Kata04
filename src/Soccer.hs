@@ -7,10 +7,9 @@ module Soccer
   , minTeamByDiffScores
   ) where
 
-import Record (Record(..), maybeRead, maybeWord)
+import Record (Record(..), maybeRead, maybeWord, find)
 
 import Control.Arrow ((&&&))
-import Data.List (minimumBy)
 import Data.Ord (comparing)
 
 data Soccer = Soccer { team::String, f::Int, a::Int }
@@ -26,4 +25,4 @@ diffScores :: Soccer -> Int
 diffScores = abs . uncurry (-) . (f &&& a)
 
 minTeamByDiffScores :: [Soccer] -> String
-minTeamByDiffScores = team . minimumBy (comparing diffScores)
+minTeamByDiffScores = find team (comparing diffScores)
