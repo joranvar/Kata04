@@ -4,8 +4,6 @@ module Soccer
     -- * Domain type
     Soccer(..)
     -- * Functionality
-  , parse
-  , parseFile
   , minTeamByDiffScores
   ) where
 

@@ -4,8 +4,6 @@ module Weather
     -- * Domain type
     Weather(..)
     -- * Functionality
-  , parse
-  , parseFile
   , minDayBySpread
   ) where
 
