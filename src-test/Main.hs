@@ -7,8 +7,9 @@ import Test.Tasty.HUnit
 import Test.Tasty.SmallCheck
 import Test.SmallCheck.Series
 
-import Weather (Weather(..), parse, parseFile, minDayBySpread)
-import Soccer (Soccer(..), parse, parseFile, minTeamByDiffScores)
+import Record (Record(..))
+import Weather (Weather(..), minDayBySpread)
+import Soccer (Soccer(..), minTeamByDiffScores)
 instance (Monad m, Enum a, Bounded a) => Serial m a where
   series = generate (\d -> take d [minBound .. maxBound])
 
@@ -35,26 +36,26 @@ weatherTests :: String -> [TestTree]
 weatherTests dat =
   let header:emptyline:record1:_rest = lines dat in
   [ testCase "Can parse first record" $
-    Weather.parse record1 @?= (Just $ Weather 1 88 59)
+    parse record1 @?= (Just $ Weather 1 88 59)
   , testCase "Will skip header" $
-    Weather.parse header @?= Nothing
+    parse header @?= (Nothing :: Maybe Weather)
   , testCase "Will skip empty line" $
-    Weather.parse emptyline @?= Nothing
+    parse emptyline @?= (Nothing :: Maybe Weather)
   , testCase "Can parse whole file" $
-    (length $ Weather.parseFile dat) @?= 30
+    (length $ (parseFile dat :: [Weather])) @?= 30
   , testCase "Can solve question of part one" $
-    (minDayBySpread $ Weather.parseFile dat) @?= 14
+    (minDayBySpread $ parseFile dat) @?= 14
   ]
 
 soccerTests :: String -> [TestTree]
 soccerTests dat =
   let header:record1:_rest = lines dat in
   [ testCase "Can parse first record" $
-    Soccer.parse record1 @?= (Just $ Soccer "Arsenal" 79 36)
+    parse record1 @?= (Just $ Soccer "Arsenal" 79 36)
   , testCase "Will skip header" $
-    Soccer.parse header @?= Nothing
+    parse header @?= (Nothing :: Maybe Soccer)
   , testCase "Can parse whole file" $
-    (length $ Soccer.parseFile dat) @?= 20
+    (length $ (parseFile dat :: [Soccer])) @?= 20
   , testCase "Can solve question of part one" $
-    (minTeamByDiffScores $ Soccer.parseFile dat) @?= "Aston_Villa"
+    (minTeamByDiffScores $ parseFile dat) @?= "Aston_Villa"
   ]

@@ -9,28 +9,27 @@ module Soccer
   , minTeamByDiffScores
   ) where
 
+import Record (Record(..))
+
 import Control.Arrow ((&&&))
 import Data.List (minimumBy)
-import Data.Maybe (listToMaybe, catMaybes)
+import Data.Maybe (listToMaybe)
 import Data.Ord (comparing)
 
 data Soccer = Soccer { team::String, f::Int, a::Int }
   deriving (Eq, Show)
+
+instance Record Soccer where
+  parse s = Soccer
+            <$> (maybeWord 1 s)
+            <*> (maybeRead =<< maybeWord 6 s)
+            <*> (maybeRead =<< maybeWord 8 s)
 
 maybeRead :: (Read a) => String -> Maybe a
 maybeRead = fmap fst . listToMaybe . reads
 
 maybeWord :: Int -> String -> Maybe String
 maybeWord n = listToMaybe . drop n . words
-
-parse :: String -> Maybe Soccer
-parse s = Soccer
-          <$> (maybeWord 1 s)
-          <*> (maybeRead =<< maybeWord 6 s)
-          <*> (maybeRead =<< maybeWord 8 s)
-
-parseFile :: String -> [Soccer]
-parseFile = catMaybes . map parse . lines
 
 diffScores :: Soccer -> Int
 diffScores = abs . uncurry (-) . (f &&& a)
