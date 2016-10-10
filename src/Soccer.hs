@@ -9,8 +9,6 @@ module Soccer
   ) where
 
 import Control.Arrow ((&&&))
-import Data.Maybe (listToMaybe)
-import Data.List (sortOn)
 import Record
 
 data Soccer = Soccer { team::String, f::Int, a::Int }
@@ -23,4 +21,4 @@ spread :: Soccer -> Int
 spread = abs . uncurry (-) . (f &&& a)
 
 answer2 :: String -> Maybe String
-answer2 = fmap team . listToMaybe . sortOn spread . parseFile
+answer2 = fmap team . minimumOn spread . parseFile

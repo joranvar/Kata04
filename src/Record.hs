@@ -6,9 +6,11 @@ module Record
     -- * Util functions
   , parseFile
   , maybeRead
+  , minimumOn
   ) where
 
 import Data.Maybe (catMaybes, listToMaybe)
+import Data.List (sortOn)
 
 class Record r where
   parse :: String -> Maybe r
@@ -18,3 +20,6 @@ maybeRead = fmap fst . listToMaybe . reads
 
 parseFile :: (Record r) => String -> [r]
 parseFile =  catMaybes . map parse . lines
+
+minimumOn :: (Ord o) => (r -> o) -> [r] -> Maybe r
+minimumOn p = listToMaybe . sortOn p

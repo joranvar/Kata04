@@ -9,8 +9,6 @@ module Weather
   ) where
 
 import Control.Arrow ((&&&))
-import Data.Maybe (listToMaybe)
-import Data.List (sortOn)
 import Record
 
 data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
@@ -23,4 +21,4 @@ spread :: Weather -> Int
 spread = uncurry (-) . (mxT &&& mnT)
 
 answer1 :: String -> Maybe Int
-answer1 = fmap dy . listToMaybe . sortOn spread . parseFile
+answer1 = fmap dy . minimumOn spread . parseFile
