@@ -22,11 +22,10 @@ spread = abs . uncurry (-) . (f &&& a)
 maybeRead :: (Read a) => String -> Maybe a
 maybeRead = fmap fst . listToMaybe . reads
 
-maybeWord :: Int -> String -> Maybe String
-maybeWord n = listToMaybe . drop n . words
-
 parse :: String -> Maybe Soccer
-parse s = Soccer <$> (maybeWord 1 s) <*> (maybeRead =<< maybeWord 6 s) <*> (maybeRead =<< maybeWord 8 s)
+parse s = case words s of
+            [_,team',_,_,_,_,f',_,a',_] -> Soccer team' <$> (maybeRead f') <*> (maybeRead a')
+            _ -> Nothing
 
 parseFile :: String -> [Soccer]
 parseFile =  catMaybes . map parse . lines
