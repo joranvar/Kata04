@@ -22,11 +22,10 @@ spread = uncurry (-) . (mxT &&& mnT)
 maybeRead :: (Read a) => String -> Maybe a
 maybeRead = fmap fst . listToMaybe . reads
 
-maybeWord :: Int -> String -> Maybe String
-maybeWord n = listToMaybe . drop n . words
-
 parse :: String -> Maybe Weather
-parse s = Weather <$> (maybeRead =<< maybeWord 0 s) <*> (maybeRead =<< maybeWord 1 s) <*> (maybeRead =<< maybeWord 2 s)
+parse s = case words s of
+            dy':mxT':mnT':_ -> Weather <$> maybeRead dy' <*> (maybeRead mxT') <*> (maybeRead mnT')
+            _ -> Nothing
 
 parseFile :: String -> [Weather]
 parseFile =  catMaybes . map parse . lines
