@@ -24,7 +24,7 @@ maybeRead = fmap fst . listToMaybe . reads
 
 parse :: String -> Maybe Weather
 parse s = case words s of
-            dy':mxT':mnT':_ -> Weather <$> maybeRead dy' <*> (maybeRead mxT') <*> (maybeRead mnT')
+            dy':mxT':mnT':_ -> Weather <$> maybeRead dy' <*> maybeRead mxT' <*> maybeRead mnT'
             _ -> Nothing
 
 parseFile :: String -> [Weather]

@@ -24,7 +24,7 @@ maybeRead = fmap fst . listToMaybe . reads
 
 parse :: String -> Maybe Soccer
 parse s = case words s of
-            [_,team',_,_,_,_,f',_,a',_] -> Soccer team' <$> (maybeRead f') <*> (maybeRead a')
+            _:team':_:_:_:_:f':_:a':_ -> Soccer team' <$> maybeRead f' <*> maybeRead a'
             _ -> Nothing
 
 parseFile :: String -> [Soccer]
