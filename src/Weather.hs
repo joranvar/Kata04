@@ -5,4 +5,4 @@ module Weather
     Weather(..)
   ) where
 
-data Weather = Weather
+data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
