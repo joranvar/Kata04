@@ -5,11 +5,26 @@ module Weather
     Weather(..)
     -- * Domain functions
   , spread
+    -- * Util functions
+  , parseFile
   ) where
 
 import Control.Arrow ((&&&))
+import Data.Maybe (catMaybes, listToMaybe)
 
 data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
 
 spread :: Weather -> Int
 spread = uncurry (-) . (mxT &&& mnT)
+
+maybeRead :: (Read a) => String -> Maybe a
+maybeRead = fmap fst . listToMaybe . reads
+
+maybeWord :: Int -> String -> Maybe String
+maybeWord n = listToMaybe . drop n . words
+
+parse :: String -> Maybe Weather
+parse s = Weather <$> (maybeRead =<< maybeWord 0 s) <*> (maybeRead =<< maybeWord 1 s) <*> (maybeRead =<< maybeWord 2 s)
+
+parseFile :: String -> [Weather]
+parseFile =  catMaybes . map parse . lines
