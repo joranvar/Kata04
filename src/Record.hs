@@ -15,6 +15,9 @@ import Data.List (sortOn)
 
 class Record l r | r -> l where
   parse :: String -> Maybe r
+  -- * Default implementation
+  parse = parseWords . words
+  parseWords :: [String] -> Maybe r
   label :: r -> l
 
 maybeRead :: (Read a) => String -> Maybe a

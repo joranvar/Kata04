@@ -14,9 +14,8 @@ import Record
 
 data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
 instance Record Int Weather where
-  parse s = case words s of
-              dy':mxT':mnT':_ -> Weather <$> maybeRead dy' <*> maybeRead mxT' <*> maybeRead mnT'
-              _ -> Nothing
+  parseWords (dy':mxT':mnT':_) = Weather <$> maybeRead dy' <*> maybeRead mxT' <*> maybeRead mnT'
+  parseWords _ = Nothing
   label = dy
 
 spread :: Weather -> Int

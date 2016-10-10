@@ -14,9 +14,8 @@ import Record
 
 data Soccer = Soccer { team::String, f::Int, a::Int }
 instance Record String Soccer where
-  parse s = case words s of
-              _:team':_:_:_:_:f':_:a':_ -> Soccer team' <$> maybeRead f' <*> maybeRead a'
-              _ -> Nothing
+  parseWords (_:team':_:_:_:_:f':_:a':_) = Soccer team' <$> maybeRead f' <*> maybeRead a'
+  parseWords _ = Nothing
   label = team
 
 spread :: Soccer -> Int
