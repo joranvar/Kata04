@@ -33,4 +33,6 @@ weatherTests :: String -> [TestTree]
 weatherTests dat =
   [ testCase "Can parse file" $
     (length $ parseFile dat) @?= 30
+  , testCase "Answer is correct" $
+    answer1 dat @?= Just 14
   ]
