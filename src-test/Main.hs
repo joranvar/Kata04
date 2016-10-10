@@ -9,6 +9,7 @@ import Test.SmallCheck.Series
 
 import Weather
 import Soccer
+import Record
 
 instance (Monad m, Enum a, Bounded a) => Serial m a where
   series = generate (\d -> take d [minBound .. maxBound])
@@ -35,7 +36,7 @@ scTests =
 weatherTests :: String -> [TestTree]
 weatherTests dat =
   [ testCase "Can parse file" $
-    (length $ Weather.parseFile dat) @?= 30
+    (length $ (parseFile dat::[Weather])) @?= 30
   , testCase "Answer is correct" $
     answer1 dat @?= Just 14
   ]
@@ -43,7 +44,7 @@ weatherTests dat =
 soccerTests :: String -> [TestTree]
 soccerTests dat =
   [ testCase "Can parse file" $
-    (length $ Soccer.parseFile dat) @?= 20
+    (length $ (parseFile dat::[Soccer])) @?= 20
   , testCase "Answer is correct" $
     answer2 dat @?= Just "Aston_Villa"
   ]
