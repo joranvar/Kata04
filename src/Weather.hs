@@ -11,7 +11,7 @@ module Weather
 
 import Control.Arrow ((&&&))
 
-import Record
+import Record (maybeRead, parseFile, queryFirst, Record(..))
 
 data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
   deriving (Eq, Show)

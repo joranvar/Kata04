@@ -11,7 +11,7 @@ module Soccer
 
 import Control.Arrow ((&&&))
 
-import Record
+import Record (maybeRead, parseFile, queryFirst, Record(..))
 
 data Soccer = Soccer { team::String, f::Int, a::Int }
   deriving (Eq, Show)
