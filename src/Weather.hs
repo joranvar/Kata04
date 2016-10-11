@@ -7,7 +7,6 @@ module Weather
   , spread
   , answer1
     -- * Parse functions
-  , parse
   , parseFile
   ) where
 
@@ -15,21 +14,22 @@ import Control.Arrow ((&&&))
 import Data.List (sortOn)
 import Data.Maybe (listToMaybe, catMaybes)
 
+import Record
+
 data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
   deriving (Eq, Show)
+instance Record Weather where
+  parse s = let w = words s
+            in Weather
+               <$> (maybeRead =<< (w !!? 0))
+               <*> (maybeRead =<< (w !!? 1))
+               <*> (maybeRead =<< (w !!? 2))
 
 maybeRead :: (Read a) => String -> Maybe a
 maybeRead = fmap fst . listToMaybe . reads
 
 (!!?) :: [a] -> Int -> Maybe a
 xs !!? n = listToMaybe . drop n $ xs
-
-parse :: String -> Maybe Weather
-parse s = let w = words s
-          in Weather
-             <$> (maybeRead =<< (w !!? 0))
-             <*> (maybeRead =<< (w !!? 1))
-             <*> (maybeRead =<< (w !!? 2))
 
 parseFile :: String -> [Weather]
 parseFile = catMaybes . map parse . lines

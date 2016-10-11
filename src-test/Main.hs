@@ -32,7 +32,7 @@ scTests =
 weatherTests :: String -> [TestTree]
 weatherTests dat =
   [ testCase "Parsing empty line -> Nothing" $
-    Weather.parse "" @?= Nothing
+    parse "" @?= (Nothing :: Maybe Weather)
   , testCase "Parsing file -> 30 entries" $
     (length $ Weather.parseFile dat) @?= 30
   , testCase "Answer = 14" $
@@ -42,7 +42,7 @@ weatherTests dat =
 footballTests :: String -> [TestTree]
 footballTests dat =
   [ testCase "Parsing empty line -> Nothing" $
-    Record.parse "" @?= (Nothing :: Maybe Soccer)
+    parse "" @?= (Nothing :: Maybe Soccer)
   , testCase "Parsing file -> 20 entries" $
     (length $ Soccer.parseFile dat) @?= 20
   , testCase "Answer = Aston_Villa" $
