@@ -13,6 +13,10 @@ import Data.Maybe (listToMaybe, catMaybes)
 
 class Record r where
   parse :: String -> Maybe r
+  parseWords :: [String] -> Maybe r
+
+  -- * Default implementation
+  parse = parseWords . words
 
 maybeRead :: (Read a) => String -> Maybe a
 maybeRead = fmap fst . listToMaybe . reads

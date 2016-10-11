@@ -19,11 +19,8 @@ import Record
 data Weather = Weather { dy::Int, mxT::Int, mnT::Int }
   deriving (Eq, Show)
 instance Record Weather where
-  parse s = let w = words s
-            in Weather
-               <$> (maybeRead =<< (w !!? 0))
-               <*> (maybeRead =<< (w !!? 1))
-               <*> (maybeRead =<< (w !!? 2))
+  parseWords (dy':mxT':mnT':_) = Weather <$> maybeRead dy' <*> maybeRead mxT' <*> maybeRead mnT'
+  parseWords _ = Nothing
 
 spread :: Weather -> Int
 spread = uncurry (-) . (mxT &&& mnT)

@@ -17,11 +17,8 @@ import Record
 data Soccer = Soccer { team::String, f::Int, a::Int }
   deriving (Eq, Show)
 instance Record Soccer where
-  parse s = let w = words s
-            in Soccer
-               <$> (w !!? 1)
-               <*> (maybeRead =<< (w !!? 6))
-               <*> (maybeRead =<< (w !!? 8))
+  parseWords (_:team':_:_:_:_:f':_:a':_) = Soccer team' <$> maybeRead f' <*> maybeRead a'
+  parseWords _ = Nothing
 
 spread :: Soccer -> Int
 spread = abs . uncurry (-) . (f &&& a)
