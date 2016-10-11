@@ -10,8 +10,6 @@ module Soccer
   ) where
 
 import Control.Arrow ((&&&))
-import Data.List (sortOn)
-import Data.Maybe (listToMaybe)
 
 import Record
 
@@ -26,4 +24,4 @@ spread :: Soccer -> Int
 spread = abs . uncurry (-) . (f &&& a)
 
 answer2 :: String -> Maybe String
-answer2 = fmap label . listToMaybe . sortOn spread . parseFile
+answer2 = query spread (const True) . parseFile

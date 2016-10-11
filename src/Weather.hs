@@ -7,13 +7,9 @@ module Weather
     -- * Domain functions
   , spread
   , answer1
-    -- * Parse functions
-  , parseFile
   ) where
 
 import Control.Arrow ((&&&))
-import Data.List (sortOn)
-import Data.Maybe (listToMaybe)
 
 import Record
 
@@ -28,4 +24,4 @@ spread :: Weather -> Int
 spread = uncurry (-) . (mxT &&& mnT)
 
 answer1 :: String -> Maybe Int
-answer1 = fmap label . listToMaybe . sortOn spread . parseFile
+answer1 = query spread (const True) . parseFile
