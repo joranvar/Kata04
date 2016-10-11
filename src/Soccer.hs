@@ -1,5 +1,5 @@
 -- | Kata04 - http://codekata.com/kata/kata04-data-munging/
-{-# LANGUAGE MultiParamTypeClasses, TypeSynonymInstances, FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses, TypeSynonymInstances, FlexibleInstances, LambdaCase #-}
 module Soccer
   (
     -- * Domain types
@@ -10,6 +10,7 @@ module Soccer
   ) where
 
 import Control.Arrow ((&&&))
+import Data.Function ((&))
 
 import Record (maybeRead, parseFile, queryFirst, Record(..))
 
@@ -17,8 +18,9 @@ data Soccer = Soccer { team::String, f::Int, a::Int }
   deriving (Eq, Show)
 instance Record String Soccer where
   label = team
-  parseWords (_:team':_:_:_:_:f':_:a':_) = Soccer team' <$> maybeRead f' <*> maybeRead a'
-  parseWords _ = Nothing
+  parse = words & \case
+    (_:team':_:_:_:_:f':_:a':_) -> Soccer team' <$> maybeRead f' <*> maybeRead a'
+    _ -> Nothing
 
 spread :: Soccer -> Int
 spread = abs . uncurry (-) . (f &&& a)
