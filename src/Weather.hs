@@ -12,7 +12,7 @@ module Weather
 
 import Control.Arrow ((&&&))
 import Data.List (sortOn)
-import Data.Maybe (listToMaybe, catMaybes)
+import Data.Maybe (listToMaybe)
 
 import Record
 
@@ -24,15 +24,6 @@ instance Record Weather where
                <$> (maybeRead =<< (w !!? 0))
                <*> (maybeRead =<< (w !!? 1))
                <*> (maybeRead =<< (w !!? 2))
-
-maybeRead :: (Read a) => String -> Maybe a
-maybeRead = fmap fst . listToMaybe . reads
-
-(!!?) :: [a] -> Int -> Maybe a
-xs !!? n = listToMaybe . drop n $ xs
-
-parseFile :: String -> [Weather]
-parseFile = catMaybes . map parse . lines
 
 spread :: Weather -> Int
 spread = uncurry (-) . (mxT &&& mnT)

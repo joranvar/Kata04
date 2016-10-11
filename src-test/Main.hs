@@ -34,7 +34,7 @@ weatherTests dat =
   [ testCase "Parsing empty line -> Nothing" $
     parse "" @?= (Nothing :: Maybe Weather)
   , testCase "Parsing file -> 30 entries" $
-    (length $ Weather.parseFile dat) @?= 30
+    (length $ (parseFile dat::[Weather])) @?= 30
   , testCase "Answer = 14" $
     answer1 dat @?= Just 14
   ]
@@ -44,7 +44,7 @@ footballTests dat =
   [ testCase "Parsing empty line -> Nothing" $
     parse "" @?= (Nothing :: Maybe Soccer)
   , testCase "Parsing file -> 20 entries" $
-    (length $ Soccer.parseFile dat) @?= 20
+    (length $ (parseFile dat::[Soccer])) @?= 20
   , testCase "Answer = Aston_Villa" $
     answer2 dat @?= Just "Aston_Villa"
   ]

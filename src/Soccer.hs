@@ -6,13 +6,11 @@ module Soccer
     -- * Domain functions
   , spread
   , answer2
-    -- * Parse functions
-  , parseFile
   ) where
 
 import Control.Arrow ((&&&))
 import Data.List (sortOn)
-import Data.Maybe (listToMaybe, catMaybes)
+import Data.Maybe (listToMaybe)
 
 import Record
 
@@ -24,15 +22,6 @@ instance Record Soccer where
                <$> (w !!? 1)
                <*> (maybeRead =<< (w !!? 6))
                <*> (maybeRead =<< (w !!? 8))
-
-maybeRead :: (Read a) => String -> Maybe a
-maybeRead = fmap fst . listToMaybe . reads
-
-(!!?) :: [a] -> Int -> Maybe a
-xs !!? n = listToMaybe . drop n $ xs
-
-parseFile :: String -> [Soccer]
-parseFile = catMaybes . map parse . lines
 
 spread :: Soccer -> Int
 spread = abs . uncurry (-) . (f &&& a)
