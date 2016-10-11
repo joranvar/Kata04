@@ -24,4 +24,4 @@ spread :: Soccer -> Int
 spread = abs . uncurry (-) . (f &&& a)
 
 answer2 :: String -> Maybe String
-answer2 = query spread (const True) . parseFile
+answer2 = queryFirst spread (const True) . parseFile

@@ -24,4 +24,4 @@ spread :: Weather -> Int
 spread = uncurry (-) . (mxT &&& mnT)
 
 answer1 :: String -> Maybe Int
-answer1 = query spread (const True) . parseFile
+answer1 = queryFirst spread (const True) . parseFile

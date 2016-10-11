@@ -8,7 +8,7 @@ module Record
   , maybeRead
   , (!!?)
   , parseFile
-  , query
+  , queryFirst
   ) where
 
 import Data.List (sortOn)
@@ -31,5 +31,5 @@ xs !!? n = listToMaybe . drop n $ xs
 parseFile :: (Record l r) => String -> [r]
 parseFile = catMaybes . map parse . lines
 
-query :: (Ord o, Record l r) => (r -> o) -> (r -> Bool) -> [r] -> Maybe l
-query sort' filter' = fmap label . listToMaybe . sortOn sort' . filter filter'
+queryFirst :: (Ord o, Record l r) => (r -> o) -> (r -> Bool) -> [r] -> Maybe l
+queryFirst sort' filter' = fmap label . listToMaybe . sortOn sort' . filter filter'
