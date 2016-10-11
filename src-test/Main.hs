@@ -7,17 +7,17 @@ import Test.Tasty.HUnit
 import Test.Tasty.SmallCheck
 import Test.SmallCheck.Series
 
+import Weather
 instance (Monad m, Enum a, Bounded a) => Serial m a where
   series = generate (\d -> take d [minBound .. maxBound])
 
 main :: IO ()
-main = defaultMain $ testGroup "all-tests" tests
-
-tests :: [TestTree]
-tests =
-  [ testGroup "SmallCheck" scTests
-  , testGroup "Unit tests" huTests
-  ]
+main = do
+  weatherDat <- readFile "data/weather.dat"
+  defaultMain $ testGroup "all-tests" $
+    [ testGroup "Weather tests" $ weatherTests weatherDat
+    , testGroup "SmallCheck" scTests
+    ]
 
 scTests :: [TestTree]
 scTests =
@@ -25,8 +25,8 @@ scTests =
     \x -> id (x::Int) == x
   ]
 
-huTests :: [TestTree]
-huTests =
-  [ testCase "True is True" $
-    True @?= True
+weatherTests :: String -> [TestTree]
+weatherTests _ =
+  [ testCase "Parsing empty line -> Nothing" $
+    parse "" @?= Nothing
   ]
