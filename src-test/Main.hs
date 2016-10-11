@@ -31,4 +31,6 @@ weatherTests dat =
     parse "" @?= Nothing
   , testCase "Parsing file -> 30 entries" $
     (length $ parseFile dat) @?= 30
+  , testCase "Answer = 14" $
+    answer1 dat @?= Just 14
   ]
