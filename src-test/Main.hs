@@ -42,7 +42,7 @@ weatherTests dat =
 footballTests :: String -> [TestTree]
 footballTests dat =
   [ testCase "Parsing empty line -> Nothing" $
-    Soccer.parse "" @?= Nothing
+    Record.parse "" @?= (Nothing :: Maybe Soccer)
   , testCase "Parsing file -> 20 entries" $
     (length $ Soccer.parseFile dat) @?= 20
   , testCase "Answer = Aston_Villa" $

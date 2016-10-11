@@ -7,7 +7,6 @@ module Soccer
   , spread
   , answer2
     -- * Parse functions
-  , parse
   , parseFile
   ) where
 
@@ -15,21 +14,22 @@ import Control.Arrow ((&&&))
 import Data.List (sortOn)
 import Data.Maybe (listToMaybe, catMaybes)
 
+import Record
+
 data Soccer = Soccer { team::String, f::Int, a::Int }
   deriving (Eq, Show)
+instance Record Soccer where
+  parse s = let w = words s
+            in Soccer
+               <$> (w !!? 1)
+               <*> (maybeRead =<< (w !!? 6))
+               <*> (maybeRead =<< (w !!? 8))
 
 maybeRead :: (Read a) => String -> Maybe a
 maybeRead = fmap fst . listToMaybe . reads
 
 (!!?) :: [a] -> Int -> Maybe a
 xs !!? n = listToMaybe . drop n $ xs
-
-parse :: String -> Maybe Soccer
-parse s = let w = words s
-          in Soccer
-             <$> (w !!? 1)
-             <*> (maybeRead =<< (w !!? 6))
-             <*> (maybeRead =<< (w !!? 8))
 
 parseFile :: String -> [Soccer]
 parseFile = catMaybes . map parse . lines
