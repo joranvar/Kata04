@@ -9,6 +9,7 @@ import Test.SmallCheck.Series
 
 import Weather
 import Soccer
+import Record
 instance (Monad m, Enum a, Bounded a) => Serial m a where
   series = generate (\d -> take d [minBound .. maxBound])
 
