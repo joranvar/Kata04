@@ -1,4 +1,5 @@
 -- | Kata04 - http://codekata.com/kata/kata04-data-munging/
+{-# LANGUAGE MultiParamTypeClasses, FunctionalDependencies #-}
 module Record
   (
     -- * Class
@@ -11,9 +12,10 @@ module Record
 
 import Data.Maybe (listToMaybe, catMaybes)
 
-class Record r where
+class Record l r | r -> l where
   parse :: String -> Maybe r
   parseWords :: [String] -> Maybe r
+  label :: r -> l
 
   -- * Default implementation
   parse = parseWords . words
@@ -24,5 +26,5 @@ maybeRead = fmap fst . listToMaybe . reads
 (!!?) :: [a] -> Int -> Maybe a
 xs !!? n = listToMaybe . drop n $ xs
 
-parseFile :: (Record r) => String -> [r]
+parseFile :: (Record l r) => String -> [r]
 parseFile = catMaybes . map parse . lines
