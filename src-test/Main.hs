@@ -26,7 +26,9 @@ scTests =
   ]
 
 weatherTests :: String -> [TestTree]
-weatherTests _ =
+weatherTests dat =
   [ testCase "Parsing empty line -> Nothing" $
     parse "" @?= Nothing
+  , testCase "Parsing file -> 30 entries" $
+    (length $ parseFile dat) @?= 30
   ]
